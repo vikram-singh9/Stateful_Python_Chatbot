@@ -20,10 +20,10 @@ chatbot-authentication/
 
 ## 🚀 Getting Started
 
-### 1. Clone the Repository
+### 1. Initialize the Project with UV
 
 ```bash
-git clone <your-repo-url>
+uv init chatbot-authentication
 cd chatbot-authentication
 ```
 
@@ -32,38 +32,46 @@ cd chatbot-authentication
 Make sure you have Python 3.10+
 
 ```bash
-pip install chainlit python-dotenv google-generativeai
+uv add chainlit python-dotenv google-generativeai
 ```
 
 ### 3. Create `.env` File
 
-Add your Gemini API key and GitHub OAuth credentials:
+Add your Gemini API key, chainlit secret and GitHub OAuth credentials:
 
 ```env
 GEMINI_API_KEY=your_gemini_api_key
+CHAINLIT_AUTH_SECRET...
 
 # GitHub OAuth
-CHAINLIT_AUTH_OAUTH_GITHUB_CLIENT_ID=your_github_client_id
-CHAINLIT_AUTH_OAUTH_GITHUB_CLIENT_SECRET=your_github_client_secret
+OAUTH_GITHUB_CLIENT_ID=your_github_client_id
+OAUTH_GITHUB_CLIENT_SECRET=your_github_client_secret
 ```
 
 ### 4. Create `chainlit.yaml`
 
 ```yaml
-project:
-  name: chatbot-authentication
+chainlit: 2.4.1
 
+# Interface settings
 ui:
-  name: "AI Chatbot"
-  description: "Chatbot built with Chainlit and Gemini"
-  show_prompt: true
-  show_user_typing_indicator: true
+  name: "Chainlit Chatbot"
+  description: "A simple Question Answering Stateful chatbot with GitHub authentication built with Python, UV, and Chainlit."
 
+# Message settings
+default_expand_messages: true
+
+# Auth settings
 auth:
-  type: oauth
-  providers:
-    - id: github
-      name: GitHub
+  required: true
+  providers: 
+    - github
+
+# OAuth Configuration
+oauth_providers:
+  github:
+    client_id: ${OAUTH_GITHUB_CLIENT_ID}
+    client_secret: ${OAUTH_GITHUB_CLIENT_SECRET} 
 ```
 
 ### 5. Run the App
@@ -126,8 +134,10 @@ Created by **Vikram**.
 Make sure `.env` includes:
 
 ```env
-CHAINLIT_AUTH_OAUTH_GITHUB_CLIENT_ID=...
-CHAINLIT_AUTH_OAUTH_GITHUB_CLIENT_SECRET=...
+GEMINI_API_KEY=your_gemini_api_key (get from https://aistudio.google.com/apikey)
+CHAINLIT_AUTH_SECRET...(cmd chainlit create-secret)
+OAUTH_GITHUB_CLIENT_ID=...(get from github developers setting)
+OAUTH_GITHUB_CLIENT_SECRET=...(get from github developers setting)
 ```
 
 ---
